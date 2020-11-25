@@ -4,16 +4,22 @@
  */
 
 import * as express from 'express';
-import { addQuotesRoutes } from './app/quote'
+import * as mongoose from 'mongoose';
+import { environment } from './environments/environment'
+import quotes from'./app/quotes/routes'
 
 const app = express();
+
+mongoose.connect(environment.mongoConnection, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
 
 app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to api!' });
 });
 
-
-addQuotesRoutes(app);
+app.use('/api/v1/quotes', quotes);
 
 const port = process.env.port || 3333;
 const server = app.listen(port, () => {

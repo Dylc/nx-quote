@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Quote } from '@cargatser/data'
+import { IQuote } from '@cargatser/data'
 
 import './app.css';
 
 export const App = () => {
 
-  const [quotes, setQuotes] = useState<Quote[]>([]);
+  const [quotes, setQuotes] = useState<IQuote[]>([]);
 
   useEffect(() => {
-    fetch('/api/quotes')
+    fetch('/api/v1/quotes')
       .then((_) => _.json())
       .then((qs) => {
         console.log(qs)
@@ -18,14 +18,14 @@ export const App = () => {
 
 
   function addQuote() {
-    fetch('/api/addQuote', {
-      method: 'POST',
-      body: '',
-    })
-      .then((_) => _.json())
-      .then((newQuote) => {
-        setQuotes([...quotes, newQuote]);
-      });
+    // fetch('/api/addQuote', {
+    //   method: 'POST',
+    //   body: '',
+    // })
+    //   .then((_) => _.json())
+    //   .then((newQuote) => {
+    //     setQuotes([...quotes, newQuote]);
+    //   });
   }
 
   return (
@@ -33,7 +33,11 @@ export const App = () => {
       <h1>Quotes</h1>
       <ul>
         {quotes.map((q) => (
-          <li className={'quote'}>{q.title}</li>
+          <pre>
+            {JSON.stringify(q, null, 3)}
+            <br/>
+            ------------------------------------------------------------------------------
+          </pre>
         ))}
       </ul>
       <button id={'add-quote'} onClick={addQuote}>
