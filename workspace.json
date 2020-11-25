@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "projects": {
+    "quote": {
+      "root": "apps/quote",
+      "sourceRoot": "apps/quote/src",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/quote",
+            "index": "apps/quote/src/index.html",
+            "main": "apps/quote/src/main.tsx",
+            "polyfills": "apps/quote/src/polyfills.ts",
+            "tsConfig": "apps/quote/tsconfig.app.json",
+            "assets": ["apps/quote/src/favicon.ico", "apps/quote/src/assets"],
+            "styles": ["apps/quote/src/styles.css"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/quote/src/environments/environment.ts",
+                  "with": "apps/quote/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "quote:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "quote:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/quote/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/quote/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "quote-e2e": {
+      "root": "apps/quote-e2e",
+      "sourceRoot": "apps/quote-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/quote-e2e/cypress.json",
+            "tsConfig": "apps/quote-e2e/tsconfig.e2e.json",
+            "devServerTarget": "quote:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "quote:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/quote-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "schematics": {
+    "@nrwl/react": {
+      "application": {
+        "style": "css",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "quote"
+}
