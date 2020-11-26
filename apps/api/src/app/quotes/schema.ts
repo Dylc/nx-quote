@@ -6,10 +6,13 @@ const QuoteSchema = Schema({
         type: String, 
         required: true 
     },
+    text: {
+        type: Schema.Types.Mixed,
+        required: true
+    },
     context: String,
     source: [String], 
     tags: [String],
-    text: Schema.Types.Mixed,
 },{ timestamps: true });
 
 module.exports = mongoose.model( 'Quote', QuoteSchema, 'quotes' );

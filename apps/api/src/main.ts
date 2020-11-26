@@ -5,10 +5,13 @@
 
 import * as express from 'express';
 import * as mongoose from 'mongoose';
+
 import { environment } from './environments/environment'
 import quotes from'./app/quotes/routes'
 
 const app = express();
+app.use(express.json())
+
 
 mongoose.connect(environment.mongoConnection, {
   useUnifiedTopology: true,

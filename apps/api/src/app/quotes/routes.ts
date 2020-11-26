@@ -1,38 +1,32 @@
-var express = require('express');
-var router = express.Router();
-var quotes = require('./schema');
+const express = require('express');
+const router = express.Router();
+const Quote = require('./schema');
 import { IQuote } from '@cargatser/data'
 
-const quotesEx: IQuote[] = [
-    { 
-        author: "Sir Winston Churchill",
-        createdAt: new Date("2020-09-06T15:15:33.416Z"),
-        source: ["https://www.englishdom.com/skills/phrasebook/wordset/uinston-cherchill/"],
-        tags: ["Difference", "Attitude"],
-        text: {
-            en: "Attitude is a little thing that makes a big difference.",
-            ru: "Отношение — это мелочь, которая имеет большое значение."
-        }
-    }, 
-    { 
-        author: "Sir Winston Churchill",
-        createdAt: new Date("2020-08-26T04:49:11.894Z"),
-        source: ["https://www.keepinspiring.me/winston-churchill-quotes/"],
-        text: {
-            en: "No one can guarantee success in war, but only deserve it.",
-            ru: "Отношение — это мелочь, которая имеет большое значение."
-        }
-    }
-];
 
 
-router.get( '/', function(req, res, next) {
-    // users.userlist(function(err, users) {
-    //   if (err) { return next(err); }
+router.get( '/', async function(req, res, next) {
+    const result : Array<IQuote> = await Quote.find({}, {}, {
+        // all options: https://mongoosejs.com/docs/api.html#query_Query-setOptions
+        limit: 100
+    }).exec();
+    res.send(result)
+});
 
-    //   res.send(users);
-    // });
-    res.send(quotesEx)
+router.post( '/add', async function(req, res, next) {
+    console.log('Unimplemented')
+    // const quote = new Quote({
+    //     author: "Sir Winston Churchill",
+    //     source: ["https://www.keepinspiring.me/winston-churchill-quotes/"],
+    //     tags: ["Difference", "Attitude"],
+    //     text: {
+    //         en: "No one can guarantee success in war, but only deserve it.",
+    //     }
+    // })
+    
+    // // TODO can I omit try catch in new 5 express?
+    // let result = await quote.save();
+    // res.send(result)
 });
 
 export default router ;

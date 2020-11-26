@@ -10,22 +10,21 @@ export const App = () => {
   useEffect(() => {
     fetch('/api/v1/quotes')
       .then((_) => _.json())
-      .then((qs) => {
-        console.log(qs)
-        setQuotes(qs)
-      });
+      .then(setQuotes);
   }, []);
 
 
   function addQuote() {
-    // fetch('/api/addQuote', {
-    //   method: 'POST',
-    //   body: '',
-    // })
-    //   .then((_) => _.json())
-    //   .then((newQuote) => {
-    //     setQuotes([...quotes, newQuote]);
-    //   });
+    fetch('/api/v1/quotes/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(q),
+    }).then((_) => _.json())
+      .then((newQuote) => {
+        setQuotes([...quotes, newQuote]);
+      });
   }
 
   return (
@@ -33,7 +32,7 @@ export const App = () => {
       <h1>Quotes</h1>
       <ul>
         {quotes.map((q) => (
-          <pre>
+          <pre key={q._id}>
             {JSON.stringify(q, null, 3)}
             <br/>
             ------------------------------------------------------------------------------
